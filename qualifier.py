@@ -28,20 +28,29 @@ def rearrange_tiles(image_path: str, tile_size: tuple[int, int], ordering: list[
     """
 
     im = Image.open(image_path)
-    if not valid_input(image_size=im.size, tile_size=tile_size, ordering=ordering):
-        raise ValueError("The tile size of ordering are not valid for the given image")
+    if not valid_input(im.size, tile_size, ordering):
+        raise ValueError("The tile size or ordering are not valid for the given image")
     
-    im_fin = Image.new("RGB", im.size, (255, 255, 255))
+    im_fin = Image.new("RGBA", im.size, (255, 255, 255))
 
     dimx = im.size[0]/tile_size[0]
     dimy = im.size[1]/tile_size[1]
-
     for i, pos in enumerate(ordering):
-        box = ((pos%2)*tile_size[0], (pos//2)*tile_size[1],\
-                 (1+pos%2)*tile_size[0],  (1+pos//2)*tile_size[1])
-        boxfin = tuple(map(int, ((i%dimx)*tile_size[0], (i//dimy)*tile_size[1],\
-                 (1+ i%dimx)*tile_size[0], (1+i//dimy)*tile_size[1])))
+        
+        box = ((pos%dimx)*tile_size[0], 
+               (pos//dimx)*tile_size[1],
+               (1+pos%dimx)*tile_size[0],
+               (1+pos//dimx)*tile_size[1])
+        
+        boxfin = tuple(map(int, (
+            (i%dimx)*tile_size[0],
+            (i//dimx)*tile_size[1],
+            (1+i%dimx)*tile_size[0],
+            (1+i//dimx)*tile_size[1])))
+        
         region = im.crop(box)
         im_fin.paste(region, boxfin)
-    im_fin.show()
+        
     im_fin.save(out_path)
+
+rearrange_tiles('/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/pydis_logo_scrambled.png', (256, 256), list(map(int, open('/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/pydis_logo_order.txt').readlines())), '/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/user_output.png')
