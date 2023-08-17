@@ -31,7 +31,7 @@ def rearrange_tiles(image_path: str, tile_size: tuple[int, int], ordering: list[
     if not valid_input(im.size, tile_size, ordering):
         raise ValueError("The tile size or ordering are not valid for the given image")
     
-    im_fin = Image.new("RGBA", im.size, (255, 255, 255))
+    im_fin = Image.new(im.mode, im.size, (255, 255, 255))
 
     dimx = im.size[0]/tile_size[0]
     dimy = im.size[1]/tile_size[1]
@@ -52,8 +52,3 @@ def rearrange_tiles(image_path: str, tile_size: tuple[int, int], ordering: list[
         im_fin.paste(region, boxfin)
         
     im_fin.save(out_path)
-
-imgpath = 'secret_image2_scrambled'
-orderpath = 'secret_image2_order'
-tilesize = (20, 20)
-rearrange_tiles(f'/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/{imgpath}.png', tilesize, list(map(int, open(f'/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/{orderpath}.txt').readlines())), '/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/user_output.png')
