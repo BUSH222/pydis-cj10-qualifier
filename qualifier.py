@@ -53,4 +53,7 @@ def rearrange_tiles(image_path: str, tile_size: tuple[int, int], ordering: list[
         
     im_fin.save(out_path)
 
-rearrange_tiles('/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/pydis_logo_scrambled.png', (256, 256), list(map(int, open('/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/pydis_logo_order.txt').readlines())), '/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/user_output.png')
+imgpath = 'secret_image2_scrambled'
+orderpath = 'secret_image2_order'
+tilesize = (20, 20)
+rearrange_tiles(f'/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/{imgpath}.png', tilesize, list(map(int, open(f'/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/{orderpath}.txt').readlines())), '/Users/tedvtorov/Desktop/py-proj/new/qualifier/images/user_output.png')
