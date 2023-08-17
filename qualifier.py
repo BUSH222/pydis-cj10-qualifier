@@ -11,7 +11,6 @@ def valid_input(image_size: tuple[int, int], tile_size: tuple[int, int], orderin
     dimy = image_size[1]/tile_size[1]
     if dimx.is_integer() and dimy.is_integer():
         if len(ordering) == dimx*dimy and len(ordering)-1 == max(ordering):
-            print('passed')
             if set(range(max(ordering)+1)) == set(ordering):
                 return True
     return False
@@ -37,11 +36,7 @@ def rearrange_tiles(image_path: str, tile_size: tuple[int, int], ordering: list[
     dimx = im.size[0]/tile_size[0]
     dimy = im.size[1]/tile_size[1]
 
-    print(dimx, dimy)
-
     for i, pos in enumerate(ordering):
-        print(pos//2, pos%2, i, pos)
-        #print(i % dimx, i//dimy)
         box = ((pos%2)*tile_size[0], (pos//2)*tile_size[1],\
                  (1+pos%2)*tile_size[0],  (1+pos//2)*tile_size[1])
         boxfin = tuple(map(int, ((i%dimx)*tile_size[0], (i//dimy)*tile_size[1],\
