@@ -9,11 +9,13 @@ def valid_input(image_size: tuple[int, int], tile_size: tuple[int, int], orderin
     """
     dimx = image_size[0]/tile_size[0]
     dimy = image_size[1]/tile_size[1]
-    if dimx.is_integer() and dimy.is_integer():
-        if len(ordering) == dimx*dimy and len(ordering)-1 == max(ordering):
-            if set(range(max(ordering)+1)) == set(ordering):
-                return True
-    return False
+    return all([
+        dimx.is_integer(),
+        dimy.is_integer(),
+        len(ordering) == dimx * dimy,
+        len(ordering) - 1 == max(ordering),
+        set(range(max(ordering) + 1)) == set(ordering)
+    ])
 
 def rearrange_tiles(image_path: str, tile_size: tuple[int, int], ordering: list[int], out_path: str) -> None:
     """
@@ -34,9 +36,7 @@ def rearrange_tiles(image_path: str, tile_size: tuple[int, int], ordering: list[
     im_fin = Image.new(im.mode, im.size, (255, 255, 255))
 
     dimx = im.size[0]/tile_size[0]
-    dimy = im.size[1]/tile_size[1]
     for i, pos in enumerate(ordering):
-        
         box = ((pos%dimx)*tile_size[0], 
                (pos//dimx)*tile_size[1],
                (1+pos%dimx)*tile_size[0],
